@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnosis Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #222;
+        }
+
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        img {
+            display: block;
+            margin: 0 auto 20px;
+            width: 60%; /* Adjusted to prevent it from being overly wide */
+            max-height: 300px;
+            border: 2px solid white;
+            border-radius: 8px;
+        }
+
+        .result-section, .llm-reports, .chatbot {
+            margin-bottom: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            border: 1px solid white;
+            border-radius: 5px;
+            background-color: #333;
+            color: white;
+            resize: none;
+            box-sizing: border-box;
+        }
+
+        select, button {
+            width: 100%; /* Full width */
+            margin-top: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        select {
+            background-color: #333;
+            color: white;
+        }
+
+        button {
+            background-color: white;
+            color: black;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #444;
+            color: white;
+        }
+
+        #chat-response {
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px solid white;
+            border-radius: 5px;
+            background-color: #333;
+            color: white;
+            min-height: 80px;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Medical Diagnosis Report</h1>
+
+        <div class="result-section">
+            <h2>Diagnosis:</h2>
+            <p><strong>Condition:</strong> {{ condition }}</p>
+            <div id="condition-details">
+                <p>{{ disease_details }}</p>
+            </div>
+        </div>
+
+        <h2>Uploaded X-ray Image:</h2>
+        <img src="{{ url_for('static', filename='uploads/' + image_filename) }}" alt="X-ray Image">
+
+        <div class="llm-reports">
+            <h2>LLM Medical Generated Report:</h2>
+            <p>{{ report }}</p>
+        </div>
+
+        <div class="chatbot">
+            <h2>Chat with our Medical Assistant</h2>
+            <form action="{{ url_for('chat') }}" method="POST">
+                <textarea name="user_input" placeholder="Ask a question..."></textarea>
+                <select name="llm" required>
+                    <option value="gpt2">GPT-2</option>
+                    <option value="gptneo">GPT-Neo</option>
+                    <option value="bart">BART</option>
+                </select>
+                <button type="submit">Ask</button>
+            </form>
+            <div id="chat-response"></div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const userInput = document.querySelector('textarea[name="user_input"]').value;
+            const llmChoice = document.querySelector('select[name="llm"]').value;
+
+            fetch("/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: `user_input=${encodeURIComponent(userInput)}&llm=${encodeURIComponent(llmChoice)}`
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("chat-response").innerText = data;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X-Ray Analysis Results</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; padding: 20px; }
+        .container { max-width: 800px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
+        h1 { text-align: center; color: #333; }
+        .analysis { margin-top: 20px; }
+        .probabilities { margin-top: 20px; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 5px 0; }
+        .normal { color: green; }
+        .covid { color: orange; }
+        .pneumonia { color: red; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>X-Ray Analysis Results</h1>
+        <div class="analysis">
+            <h2>Detailed Analysis</h2>
+            <p>{{ analysis }}</p>
+        </div>
+        <div class="probabilities">
+            <h2>Probability Breakdown</h2>
+            <ul>
+                {% for label, probability in probabilities.items() %}
+                    <li class="{{ label.lower() }}">
+                        <strong>{{ label }}</strong>: {{ (probability * 100) | round(2) }}%
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="back">
+            <a href="/">Analyze Another X-Ray</a>
+        </div>
+    </div>
+</body>
+</html>

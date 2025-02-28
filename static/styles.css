@@ -1,0 +1,71 @@
+body {
+    background-color: #121212;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.upload-section, .chatbot, .result-section, .report-section {
+    background-color: #1c1c1c;
+    padding: 15px;
+    border-radius: 10px;
+    width: 30%;
+}
+
+.upload-section input[type="file"], .upload-section button {
+    margin-top: 10px;
+}
+
+.upload-section button, .chatbot button {
+    background-color: #3b3b3b;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.upload-section button:hover, .chatbot button:hover {
+    background-color: #555;
+}
+
+.chatbot input {
+    width: 100%;
+    padding: 10px;
+    background-color: #2b2b2b;
+    border: none;
+    color: white;
+    border-radius: 5px;
+}
+
+.result-section img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+.report-section .report {
+    margin-top: 15px;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.chatbox {
+    margin-top: 10px;
+}
+
+.chatbox .user-message, .chatbox .bot-message {
+    background-color: #444;
+    padding: 5px;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+.chatbox .bot-message {
+    background-color: #222;
+}
